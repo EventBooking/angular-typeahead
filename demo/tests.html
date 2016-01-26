@@ -1,12 +1,20 @@
-<div class="sidebar">
-    <div>Name: {{vm.contact.name}}</div>
-    <div>Selected: {{vm.contact.contactId}}</div>
-    <input type="text" 
-        name="contactSearch"
-        ng-model="vm.contactSearch" 
-        typeahead="vm.contact" 
-        typeahead-text="name" 
-        typeahead-selection-required 
-        on-search="vm.searchContacts(text)" 
-        required />
-</div>
+<form name="searchContactsForm">
+    <div class="sidebar">
+        <div>Name: {{vm.contact.name}}</div>
+        <div>Selected: {{vm.contact.contactId}}</div>
+       
+        <input type="text" 
+            name="contactSearch"
+            ng-model="vm.contactSearch" 
+            typeahead="vm.contact" 
+            typeahead-text="name" 
+            typeahead-selection-required 
+            on-search="vm.searchContacts(text)" 
+            required />
+            
+        <div ng-show="searchContactsForm.contactSearch.$error.typeahead">
+            <div style="color: red">Typeahead error</div>
+            <button type="button" ng-click="vm.contact=vm.contacts[0]; vm.contactSearch='Thomas'">Set Contact</button>
+        </div>
+    </div>
+</form>

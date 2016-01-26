@@ -12,10 +12,21 @@ module AngularTypeaheadModule {
         searchDelay = 150;
         results;
         selectedIdx;
-        typeahead;
+        _typeahead: any;
         typeaheadText;
         ngModel;
         update;
+        resetValidity;
+        
+        set typeahead(value: any){
+            this._typeahead = value;
+            if(this.resetValidity)
+                this.resetValidity();
+        }
+        
+        get typeahead(): any{
+            return this._typeahead;
+        }
 
         private _isVisible: boolean;
 
@@ -247,6 +258,10 @@ module AngularTypeaheadModule {
             function setValidity(isValid: boolean) {
                 ngModelCtrl.$setValidity('typeahead', isValid);
             }
+            
+            ctrl.resetValidity = () => {
+                setValidity(true);
+            };
 
             if (ctrl.typeahead != null)
                 ctrl.update();
