@@ -1,0 +1,89 @@
+@color-scale: 10%;
+
+@color-red:             #EF5041; 
+@color-red-light:       #F48F7F; 
+@color-red-lighter:     #F8B5A6;
+@color-red-lightest:    #FBD9D5;
+@color-red-dark:        #D43E37; 
+@color-red-darker:      #8D2924;
+@color-red-darkest:     #8D2924;
+
+@color-orange:          #EEA041; 
+@color-orange-light:    #F7D7A6; 
+@color-orange-lighter:  #FBEAD5;
+@color-orange-lightest: #FCF2E5;
+@color-orange-dark:     #D38A37; 
+@color-orange-darker:   #8D5C24;
+@color-orange-darkest:  #8D5C24;
+
+@color-yellow:          #EED341; 
+@color-yellow-light:    #F4E37F; 
+@color-yellow-lighter:  #F7ECA6;
+@color-yellow-lightest: #FBF5D5;
+@color-yellow-dark:     #D3BA37; 
+@color-yellow-darker:   #8D7C24;
+@color-yellow-darkest:  #8D7C24;
+
+@color-green:           #48C245; 
+@color-green-light:     #85D882; 
+@color-green-lighter:   #AEE5A7;
+@color-green-lightest:  #D6F1D6;
+@color-green-dark:      #30AA3A; 
+@color-green-darker:    #207126;
+@color-green-darkest:   #207126;
+
+@color-blue:            #4EB6D6; 
+@color-blue-light:      #89D0E5; 
+@color-blue-lighter:    #B1E0ED;
+@color-blue-lightest:   #D7EFF6;
+@color-blue-dark:       #369FB6; 
+@color-blue-darker:     #246A78;
+@color-blue-darkest:    #246A78; 
+
+@color-purple:          #800080;
+@color-purple-light:    lighten(@color-purple, @color-scale);
+@color-purple-lighter:  lighten(@color-purple-light, @color-scale);
+@color-purple-lightest: lighten(@color-purple-lighter, @color-scale);
+@color-purple-dark:     darken(@color-purple, @color-scale);
+@color-purple-darker:   darken(@color-purple-dark, @color-scale);
+@color-purple-darkest:  darken(@color-purple-darker, @color-scale);
+
+@color-gray:            #999990; 
+@color-gray-light:      #B2B2A9; 
+@color-gray-lighter:    #CCCCC3;
+@color-gray-lightest:   #E5E5E3;
+@color-gray-lightest2:  #EFEFEE; 
+@color-gray-dark:       #72726B; 
+@color-gray-darker:     #4C4C47;
+@color-gray-darkest:    #262624;
+
+// font weights
+@font-family: 'Source Sans Pro';
+@font-family-uri: escape(@font-family);
+@font-family-sizes: "300,400,600";
+@font-weight-light: 300;
+@font-weight:       400;
+@font-weight-bold:  600;
+
+// typescale
+@typescale-xsm: 12;
+@typescale-sm:  14;
+@typescale:     16;
+@typescale-lg:  20;
+@typescale-xlg: 24;
+@font-size-base: @typescale;
+@line-height-base: 1.5;
+@letter-spacing-header: 0.0625;
+
+/* General */
+@padding: 32;
+@padding-half: @padding/2;
+@padding-quarter: @padding/4;
+@border-color: @color-gray-lightest;
+@border-color-light: @color-gray-lightest2;
+@border-color-dark: @color-gray-light;
+@background-color: @color-gray-lightest;
+
+@typeahead-background-color: #fff;
+@typeahead-border-color: @color-gray-lightest;
+@typeahead-arrow-size: 6;

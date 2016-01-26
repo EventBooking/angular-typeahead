@@ -1,0 +1,24 @@
+{
+  "name": "angular-typeahead",
+  "version": "0.0.0",
+  "homepage": "https://github.com/EventBooking/angular-typeahead",
+  "authors": [
+    "Mike Walters <mike@eventbooking.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "jquery": "~2.1.4",
+    "tether": "~1.1.1",
+    "angular-typescript-module": "https://github.com/EventBooking/angular-typescript-module.git#v1.0.1"
+  },
+  "devDependencies": {
+  }
+}

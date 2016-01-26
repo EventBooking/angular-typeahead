@@ -1,0 +1,54 @@
+/// <reference path="variables.less" />
+/// <reference path="mixins.less" />
+
+.typeahead {
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: @typeahead-border-color;
+    border-radius: 4px;
+
+    &--hidden {
+        display: none;
+    }
+}
+
+.typeahead-target-attached {
+    &-bottom {
+        .arrow-outset-top(@typeahead-arrow-size);
+    }
+}
+
+.typeahead-placeholder {
+    
+}
+
+.typeahead-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.typeahead-item {
+    color: @color-gray-darker;
+    display: block;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &--selected,
+    &:hover {
+        background-color: @color-gray-lightest2;
+    }
+}
+
+.typeahead-link {
+    &,
+    &:visited,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+        color: inherit;
+    }
+}

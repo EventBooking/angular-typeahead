@@ -1,0 +1,246 @@
+.divider(@start,@end,@shape: circle) {
+    overflow: hidden;
+    height: 1px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-image: radial-gradient(@shape, @start, @end);
+}
+
+.divider-dark {
+    .divider(#626262, #33373b);
+}
+
+.divider-light {
+    .divider(#e5e5e5, #ffffff);
+}
+
+.font-size(@sizeValue) {
+    @remValue: (@sizeValue / @font-size-base);
+    @pxValue: @sizeValue;
+    font-size: ~"@{pxValue}px"; 
+    font-size: ~"@{remValue}rem";
+}
+
+.arrow-inset-bottom(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: ~"calc(50% - @{size}px)";
+        top: auto;
+        bottom: auto;
+        right: auto;
+    }
+
+    &:before {
+        bottom: 0;
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-bottom:  @size-unit solid @borderColor;
+    }
+
+    &:after {
+        bottom: -1px;
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-bottom:  @size-unit solid @color;
+    }
+}
+
+.arrow-inset-right(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: ~"calc(50% - @{size}px)";
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+
+    &:before {
+        right: 0;
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-right:   @size-unit solid @borderColor;
+    }
+
+    &:after {
+        right: -1px;
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-right:   @size-unit solid @color;
+    }
+}
+
+.arrow-inset-left(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: ~"calc(50% - @{size}px)";
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+
+    &:before {
+        left: 0;
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-left:   @size-unit solid @borderColor;
+    }
+
+    &:after {
+        left: -1px;
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-left:   @size-unit solid @color;
+    }
+}
+
+.arrow-outset-top(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: ~"calc(50% - @{size}px)";
+        top: auto;
+        bottom: auto;
+        right: auto;
+    }
+
+    &:before {
+        top: unit(-@size,px);
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-bottom:  @size-unit solid @borderColor;
+    }
+
+    &:after {
+        top: unit(-@size + 1,px);
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-bottom:  @size-unit solid @color;
+    }
+}
+
+.arrow-outset-bottom(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: ~"calc(50% - @{size}px)";
+        top: auto;
+        bottom: auto;
+        right: auto;
+    }
+
+    &:before {
+        bottom: unit(-@size,px);
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-top:  @size-unit solid @borderColor;
+    }
+
+    &:after {
+        bottom: unit(-@size  + 1,px);
+        border-left:    @size-unit solid transparent;
+        border-right:   @size-unit solid transparent;
+        border-top:  @size-unit solid @color;
+    }
+}
+
+.arrow-outset-left(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: ~"calc(50% - @{size}px)";
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+
+    &:before {
+        left: unit(-@size,px);
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-right:   @size-unit solid @borderColor;
+    }
+
+    &:after {
+        left: unit(-@size + 1,px);
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-right:   @size-unit solid @color;
+    }
+}
+
+.arrow-outset-right(@size; @color: #fff; @borderColor: @border-color) {
+    @size-unit: unit(@size,px);
+
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: ~"calc(50% - @{size}px)";
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+
+    &:before {
+        right: unit(-@size,px);
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-left:   @size-unit solid @borderColor;
+    }
+
+    &:after {
+        right: unit(-@size + 1,px);
+        border-top:     @size-unit solid transparent;
+        border-bottom:  @size-unit solid transparent;
+        border-left:   @size-unit solid @color;
+    }
+}
