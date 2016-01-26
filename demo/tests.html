@@ -1,11 +1,12 @@
-<div>Name: {{vm.contact.name}}</div>
-<div>Selected: {{vm.contact.contactId}}</div>
-<input type="text" 
-    name="contactSearch"
-    ng-model="vm.contactSearch" 
-    typeahead="vm.contact" 
-    typeahead-text="name" 
-    typeahead-selection-required 
-    on-search="vm.searchContacts(text)" 
-    required />
-    
+<div class="sidebar">
+    <div>Name: {{vm.contact.name}}</div>
+    <div>Selected: {{vm.contact.contactId}}</div>
+    <input type="text" 
+        name="contactSearch"
+        ng-model="vm.contactSearch" 
+        typeahead="vm.contact" 
+        typeahead-text="name" 
+        typeahead-selection-required 
+        on-search="vm.searchContacts(text)" 
+        required />
+</div>

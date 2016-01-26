@@ -216,9 +216,9 @@ module AngularTypeaheadModule {
                         target: $element,
                         targetAttachment: 'bottom left',
                         element: content,
-                        attachment: 'top center',
+                        attachment: 'top left',
                         classPrefix: 'typeahead',
-                        targetOffset: '14px 0',
+                        targetOffset: '6px 0',
                         constraints: [
                             {
                                 to: 'window',

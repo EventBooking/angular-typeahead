@@ -21,6 +21,9 @@
   border-width: 1px;
   border-color: #E5E5E3;
   border-radius: 4px;
+  z-index: 999;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 .typeahead--hidden {
   display: none;
