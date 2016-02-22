@@ -17,7 +17,7 @@
     "angular": "~1.4.8",
     "jquery": "~2.1.4",
     "tether": "~1.1.1",
-    "angular-typescript-module": "https://github.com/EventBooking/angular-typescript-module.git#v1.0.1"
+    "angular-typescript-module": "https://github.com/EventBooking/angular-typescript-module.git#v1.0.2"
   },
   "devDependencies": {
   }
