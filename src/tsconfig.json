@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
+        "declaration": true,
         "noImplicitAny": false,
         "noEmitOnError": true,
         "removeComments": false,
         "inlineSourceMap": true,
         "inlineSources": true,
         "target": "es5",
-        "out": "dist/angular-typeahead.js"
+        "out": "dist/angular-typeahead.debug.js"
     }
 }

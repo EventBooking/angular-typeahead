@@ -17,7 +17,7 @@ gulp.task('default', ['clean'], build);
 gulp.task('typescript', ['tsd:install'], function (callback) {
     typescript(callback);
 });
-
+gulp.task('postTsc', postTsc);
 gulp.task('typescript', typescript);
 
 
@@ -118,4 +118,18 @@ function build() {
     styles();
     html();
     typescript();
+}
+
+function stripRefs(src, dest, name) {
+    var strip = require("gulp-strip-comments");
+
+    return gulp.src(src)
+        .pipe(strip())
+        .pipe(concat(name))
+        .pipe(gulp.dest(dest));
+}
+
+function postTsc() {
+    stripRefs(dest + '/angular-typeahead.debug.d.ts', dest, '/angular-typeahead.d.ts');
+    stripRefs(dest + '/angular-typeahead.debug.js', dest, '/angular-typeahead.js');
 }
