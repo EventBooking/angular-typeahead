@@ -14,9 +14,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.9",
-    "jquery": "~2.1.4",
-    "tether": "~1.1.1",
+    "angular": "^1.4.9",
+    "jquery": "^2.2.1",
+    "tether": "^1.1.1",
     "angular-typescript-module": "https://github.com/EventBooking/angular-typescript-module.git#^v1.0.3"
   },
   "devDependencies": {
