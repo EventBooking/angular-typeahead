@@ -51,8 +51,10 @@ var AngularTypeaheadModule;
         TypeaheadController.prototype.select = function ($index) {
             if ($index != null)
                 this.selectedIdx = $index;
-            if (this.selectedIdx > -1)
+            if (this.selectedIdx > -1) {
                 this.typeahead = this.results[this.selectedIdx];
+                this.onSelect();
+            }
             this.selectedIdx = -1;
             this.update();
         };
@@ -106,7 +108,8 @@ var AngularTypeaheadModule;
                 typeahead: '=',
                 typeaheadTemplate: '@',
                 typeaheadText: '@',
-                onSearch: '&'
+                onSearch: '&',
+                onSelect: '&'
             };
             this.link = function ($scope, $element, $attrs, ngModelCtrl) {
                 var ctrl = $scope[_this.controllerAs], $body = angular.element('body'), getTextFromModel = _this.$parse($attrs.typeaheadText), content, tether;

@@ -17,6 +17,7 @@ module AngularTypeaheadModule {
         ngModel;
         update;
         resetValidity;
+        onSelect: any;
         
         set typeahead(value: any){
             this._typeahead = value;
@@ -60,8 +61,10 @@ module AngularTypeaheadModule {
         select($index?) {
             if ($index != null) // single equality (=) to snag undefined also
                 this.selectedIdx = $index;
-            if (this.selectedIdx > -1)
+            if (this.selectedIdx > -1) {
                 this.typeahead = this.results[this.selectedIdx];
+                this.onSelect();
+            }
             this.selectedIdx = -1;
             this.update();
         }
@@ -123,7 +126,8 @@ module AngularTypeaheadModule {
             typeahead: '=',
             typeaheadTemplate: '@',
             typeaheadText: '@',
-            onSearch: '&'
+            onSearch: '&',
+            onSelect: '&'
         };
 
         link = ($scope, $element, $attrs, ngModelCtrl) => {
