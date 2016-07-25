@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "gulp": "gulp",
-    "tsc": "tsc -p src & gulp postTsc",
-    "tsc:w": "tsc -p src -w & gulp postTsc",
-    "tsd": "tsd install",
-    "server": "lite-server --open demo"
+    "build": "npm run tsc && npm run gulp",
+    "tsc": "tsc -p src",
+    "tsc:w": "tsc -p src -w",
+    "postInstall": "tsd install",
+    "start:w": "tsc -p src -w & gulp postTsc",
+    "start": "lite-server --open demo"
   },
   "repository": {
     "type": "git",

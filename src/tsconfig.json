@@ -7,6 +7,6 @@
         "inlineSourceMap": true,
         "inlineSources": true,
         "target": "es5",
-        "out": "dist/angular-typeahead.debug.js"
+        "out": "dist/angular-typeahead.js"
     }
 }

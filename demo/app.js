@@ -24,7 +24,10 @@ function TestController($q) {
 	this.searchContacts = function(text) {
         var contacts = this.contacts;
         return $q(function(resolve, reject) {
-            resolve(contacts);      
+            setTimeout(function() {
+                resolve(contacts);
+            }, 1000);
+                  
         });
     }
 }

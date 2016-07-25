@@ -5,27 +5,29 @@ module AngularTypeaheadModule {
 
         constructor(private $timeout, private $q: angular.IQService) {
             this.selectedIdx = -1;
+            this._isVisible = false;
+            this.searchDelay = 150;
         }
 
         onSearch;
         ticket;
-        searchDelay = 150;
+        searchDelay: number;
         results;
-        selectedIdx;
+        selectedIdx: number;
         _typeahead: any;
         typeaheadText;
         ngModel;
         update;
         resetValidity;
         onSelect: any;
-        
-        set typeahead(value: any){
+
+        set typeahead(value: any) {
             this._typeahead = value;
-            if(this.resetValidity)
+            if (this.resetValidity)
                 this.resetValidity();
         }
-        
-        get typeahead(): any{
+
+        get typeahead(): any {
             return this._typeahead;
         }
 
@@ -115,7 +117,7 @@ module AngularTypeaheadModule {
     class TypeaheadDirective {
         static $inject = ['$compile', '$templateCache', '$parse', '$timeout'];
 
-        constructor(private $compile, private $templateCache, private $parse, private $timeout) {}
+        constructor(private $compile, private $templateCache, private $parse, private $timeout) { }
 
         restrict = 'A';
         require = 'ngModel';
@@ -134,8 +136,7 @@ module AngularTypeaheadModule {
             var ctrl: TypeaheadController = $scope[this.controllerAs],
                 $body = angular.element('body'),
                 getTextFromModel = this.$parse($attrs.typeaheadText),
-                content,
-                tether;
+                content;
 
             $element.attr("autocomplete", "off");
 
@@ -156,6 +157,32 @@ module AngularTypeaheadModule {
                 }
 
                 ctrl.isVisible = false;
+                $scope.$apply();
+            });
+
+            $element.on('focus.typeahead', () => {
+                if (content)
+                    return;
+
+                var itemText = $attrs.typeaheadText == null ? "item" : `item.${$attrs.typeaheadText}`;
+                content = this.createContent($scope, $element, $attrs.typeaheadTemplate, itemText);
+                $body.append(content);
+
+                var tether = new Tether({
+                    target: $element,
+                    targetAttachment: 'bottom left',
+                    element: content,
+                    attachment: 'top left',
+                    classPrefix: 'typeahead',
+                    targetOffset: '6px 0',
+                    constraints: [{
+                        to: 'window',
+                        attachment: 'together',
+                        pin: ['top', 'left', 'bottom', 'right']
+                    }]
+                });
+                
+                tether.position();
                 $scope.$apply();
             });
 
@@ -216,40 +243,13 @@ module AngularTypeaheadModule {
             });
 
             $element.on('keyup.typeahead', e => {
-
                 if (this.isControlKey(e))
                     return;
 
                 ctrl.selectedIdx = -1;
                 ctrl.typeahead = null;
 
-                if (!content) {
-                    var itemText = $attrs.typeaheadText == null ? "item" : `item.${$attrs.typeaheadText}`;
-                    content = this.createContent($scope, $element, $attrs.typeaheadTemplate, itemText);
-                    $body.append(content);
-                    tether = new Tether({
-                        target: $element,
-                        targetAttachment: 'bottom left',
-                        element: content,
-                        attachment: 'top left',
-                        classPrefix: 'typeahead',
-                        targetOffset: '6px 0',
-                        constraints: [
-                            {
-                                to: 'window',
-                                attachment: 'together',
-                                pin: ['top', 'left', 'bottom', 'right']
-                            }
-                        ]
-                    });
-                    $scope.$apply();
-                }
-
-                ctrl.search(ngModelCtrl.$modelValue).then(() => {
-                    $scope.$applyAsync(() => {
-                        tether.position();
-                    });
-                });
+                ctrl.search(ngModelCtrl.$modelValue);
             });
 
             $element.addClass('typeahead-placeholder');
@@ -262,7 +262,7 @@ module AngularTypeaheadModule {
             function setValidity(isValid: boolean) {
                 ngModelCtrl.$setValidity('typeahead', isValid);
             }
-            
+
             ctrl.resetValidity = () => {
                 setValidity(true);
             };
@@ -306,9 +306,7 @@ module AngularTypeaheadModule {
             var html = templateUrl ? this.$templateCache.get(templateUrl) : `<a href="#" class="typeahead-link">{{${text}}}</a>`,
                 template = `<div class="typeahead" ng-class="{'typeahead--hidden':!typeaheadVm.isVisible}"><ul class="typeahead-menu"><li class="typeahead-item" ng-repeat="item in typeaheadVm.results" ng-class="{'typeahead-item--selected': typeaheadVm.isSelected($index)}" ng-click="typeaheadVm.select($index)">${html}</li></ul></div>`,
                 content = angular.element(template);
-
             this.$compile(content)(scope);
-
             return content;
         }
     }

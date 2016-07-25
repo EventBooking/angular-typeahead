@@ -6,62 +6,15 @@ var gulp = require('gulp'),
     dest = 'dist';
 
 gulp.task('clean', clean);
+gulp.task('default', ['clean'], build);
+gulp.task('build', build);
 gulp.task('styles', styles);
 gulp.task('html', html);
-gulp.task('server', ['watch'], function (callback) {
-    exec("npm run server", callback);
-});
-gulp.task('watch', watch);
-gulp.task('tsd:install', tsdInstall);
-gulp.task('default', ['clean'], build);
-gulp.task('typescript', ['tsd:install'], function (callback) {
-    typescript(callback);
-});
-gulp.task('postTsc', postTsc);
-gulp.task('typescript', typescript);
-
-
-function exec(cmd, fn, options) {
-    var proc = require('child_process').exec,
-        child = proc(cmd, options, fn);
-
-    child.stdout.on('data', function (data) {
-        console.log(data);
-    });
-
-    child.stderr.on('data', function (data) {
-        console.log(data);
-    });
-}
+gulp.task('watch', ['build'], watch);
 
 function clean() {
     var del = require('del');
     return del(dest);
-}
-
-function tsdInstall(callback) {
-    var bundle = require('./tsd.json').bundle,
-        del = require('del');
-
-    del(bundle, function () {
-        exec('npm run tsd', callback);
-    });
-}
-
-function typescript(callback, watch) {
-    if (watch) {
-        exec("npm run tsc:w", function (error) {
-            if (error) callback(error);
-            exec("npm run tsc:w", callback);
-        });
-
-        return;
-    }
-
-    exec("npm run tsc", function (error) {
-        if (error) callback(error);
-        exec("npm run tsc", callback);
-    });
 }
 
 function styles() {
@@ -108,28 +61,12 @@ function html() {
         .pipe(gulp.dest(dest));
 }
 
-function watch() {
-    gulp.watch(['src/**/*.less'], ['styles']);
-    gulp.watch(['src/**/*.html'], ['html']);
-    typescript(null, true);
-}
-
 function build() {
     styles();
     html();
-    typescript();
 }
 
-function stripRefs(src, dest, name) {
-    var strip = require("gulp-strip-comments");
-
-    return gulp.src(src)
-        .pipe(strip())
-        .pipe(concat(name))
-        .pipe(gulp.dest(dest));
-}
-
-function postTsc() {
-    stripRefs(dest + '/angular-typeahead.debug.d.ts', dest, '/angular-typeahead.d.ts');
-    stripRefs(dest + '/angular-typeahead.debug.js', dest, '/angular-typeahead.js');
+function watch() {
+    gulp.watch(['src/**/*.less'], styles);
+    gulp.watch(['src/**/*.html'], html);
 }
