@@ -39,6 +39,10 @@
     padding: 10px 20px;
     cursor: pointer;
 
+    .typeahead-mobile--dropdown & {
+        padding: 10px;
+    }
+
     &--selected,
     &:hover {
         background-color: @color-gray-lightest2;
@@ -65,15 +69,17 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 32px;
+            height: 48px;
             border-radius: 0;
             border-width: 0;
+            padding: 15px;
+            font-size: 1.25em;
         }
     }
 
     &--dropdown {
         position: fixed;
-        top: 32px;
+        top: 48px;
         left: 0;
         right: 0;
         bottom: 0;

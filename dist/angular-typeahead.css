@@ -65,6 +65,9 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+.typeahead-mobile--dropdown .typeahead-item {
+  padding: 10px;
+}
 .typeahead-item--selected,
 .typeahead-item:hover {
   background-color: #EFEFEE;
@@ -83,13 +86,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 32px;
+  height: 48px;
   border-radius: 0;
   border-width: 0;
+  padding: 15px;
+  font-size: 1.25em;
 }
 .typeahead-mobile--dropdown {
   position: fixed;
-  top: 32px;
+  top: 48px;
   left: 0;
   right: 0;
   bottom: 0;
