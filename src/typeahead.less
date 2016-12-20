@@ -56,3 +56,47 @@
         color: inherit;
     }
 }
+
+.typeahead-body {
+    &--focused {
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // width: 100vw;
+        // height: 100vh;
+        // overflow: hidden;
+    }
+}
+
+.typeahead-mobile {
+    
+    &--input {
+        &:focus {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 24px;
+            border-radius: 0;
+            border-width: 0;
+        }
+    }
+
+    &--dropdown {
+        line-height: 24px;
+        position: fixed;
+        top: 24px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        border-width: 0;
+        z-index: 9999;
+        overflow: auto;
+
+        &.typeahead-mobile--focused {
+            display: block;
+            visibility: visible;
+        }
+    }
+}

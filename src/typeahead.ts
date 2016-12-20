@@ -1,7 +1,7 @@
 module AngularTypeaheadModule {
 
     class TypeaheadController {
-        static $inject = ['$timeout', '$q'];
+        static $inject = ['$timeout', '$q', 'isMobile'];
 
         constructor(private $timeout, private $q: angular.IQService) {
             this.selectedIdx = -1;
@@ -115,12 +115,18 @@ module AngularTypeaheadModule {
     }
 
     class TypeaheadDirective {
-        static $inject = ['$compile', '$templateCache', '$parse', '$timeout'];
+        static $inject = ['$compile', '$templateCache', '$parse', '$timeout', 'isMobile'];
 
-        constructor(private $compile, private $templateCache, private $parse, private $timeout) { }
+        constructor(
+            private $compile: angular.ICompileService,
+            private $templateCache: angular.ITemplateCacheService,
+            private $parse: angular.IParseService,
+            private $timeout: angular.ITimeoutService,
+            private isMobile: boolean
+        ) { }
 
         restrict = 'A';
-        require = 'ngModel';
+        require = ['typeahead', 'ngModel'];
         controller = TypeaheadController;
         controllerAs = 'typeaheadVm';
         bindToController = true;
@@ -132,11 +138,12 @@ module AngularTypeaheadModule {
             onSelect: '&'
         };
 
-        link = ($scope, $element, $attrs, ngModelCtrl) => {
-            var ctrl: TypeaheadController = $scope[this.controllerAs],
+        link = ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes, ctrls: any[]) => {
+            var $ctrl: TypeaheadController = ctrls[0],
+                $ngModelCtrl: angular.INgModelController = ctrls[1],
                 $body = angular.element('body'),
-                getTextFromModel = this.$parse($attrs.typeaheadText),
-                content;
+                getTextFromModel = this.$parse($attrs['typeaheadText']),
+                getContent: () => angular.IAugmentedJQuery;
 
             $element.attr("autocomplete", "off");
 
@@ -144,28 +151,147 @@ module AngularTypeaheadModule {
                 if (!this.isEscape(e))
                     return;
 
-                ctrl.isVisible = false;
+                $ctrl.isVisible = false;
                 $scope.$apply();
             });
 
             var blurTimer;
 
             $body.on("click.typeahead", e => {
+                var content = getContent();
                 if ($element.is(e.target) || !content || content.is(e.target)) {
                     this.$timeout.cancel(blurTimer);
                     return;
                 }
 
-                ctrl.isVisible = false;
+                $ctrl.isVisible = false;
                 $scope.$apply();
             });
+
+            $element.on('blur.typeahead', () => {
+                // Allow any click on the menu to come through first
+                blurTimer = this.$timeout(() => {
+                    var value = $ngModelCtrl.$modelValue;
+
+                    if (value == null || !value.length)
+                        setValidity(true);
+                    else if ($attrs['typeaheadSelectionRequired'] != null && $ctrl.typeahead == null)
+                        setValidity(false);
+
+                    $ctrl.isVisible = false;
+                    $scope.$apply();
+                }, 300);
+            });
+
+            $ctrl.update = () => {
+                var value = getTextFromModel($ctrl.typeahead) || $ctrl.typeahead;
+                $ngModelCtrl.$setViewValue(value);
+
+                setValidity(true);
+
+                $ngModelCtrl.$render();
+            };
+
+            $element.on('keydown.typeahead change.typeahead', e => {
+                if (!$ctrl.isVisible)
+                    return true;
+
+                if (this.isEscape(e)) {
+                    $ctrl.isVisible = false;
+                    $scope.$apply();
+                    return this.preventDefault(e);
+                }
+
+                if (this.isKeyUp(e)) {
+                    $ctrl.selectPrev();
+                    $scope.$apply();
+                    return this.preventDefault(e);
+                }
+
+                if (this.isKeyDown(e)) {
+                    $ctrl.selectNext();
+                    $scope.$apply();
+                    return this.preventDefault(e);
+                }
+
+                if ((this.isEnter(e) || this.isTab(e)) && $ctrl.hasSelection()) {
+                    $ctrl.select();
+                    $ctrl.isVisible = false;
+                    $scope.$apply();
+                    return this.preventDefault(e);
+                }
+
+                return true;
+            });
+
+            $element.on('keyup.typeahead', e => {
+                if (this.isControlKey(e))
+                    return;
+
+                $ctrl.selectedIdx = -1;
+                $ctrl.typeahead = null;
+
+                $ctrl.search($ngModelCtrl.$modelValue);
+            });
+
+            $element.addClass('typeahead-placeholder');
+
+            $scope.$on('$destroy', () => {
+                var content = getContent();
+                if (content) content.remove();
+                $body.off("keyup.typeahead click.typeahead");
+            });
+
+            function setValidity(isValid: boolean) {
+                $ngModelCtrl.$setValidity('typeahead', isValid);
+            }
+
+            $ctrl.resetValidity = () => {
+                setValidity(true);
+            };
+
+            if ($ctrl.typeahead != null)
+                $ctrl.update();
+
+            if (this.isMobile) {
+                getContent = this.linkMobile($scope, $element, $attrs, $ctrl, $ngModelCtrl);
+                return;
+            }
+
+            getContent = this.linkDesktop($scope, $element, $attrs, $ctrl, $ngModelCtrl);
+        };
+
+        linkMobile = ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes, $ctrl: TypeaheadController, $ngModelCtrl: angular.INgModelController) => {
+            var $body = angular.element('body'),
+                content: angular.IAugmentedJQuery;
+
+            $element.addClass('typeahead-mobile typeahead-mobile--input');
+
+            $element.on('focus.typeahead', () => {
+                if (!content) {
+                    content = this.createContentFromAttr($scope, $element, $attrs);
+                    content.addClass('typeahead-mobile typeahead-mobile--dropdown');
+                    $body.append(content);
+                }
+
+                content.addClass('typeahead-mobile--focused');
+                $element.one('blur.typeahead', () => {
+                    content.removeClass('typeahead-mobile--focused');
+                });
+            });
+
+            return () => content;
+        };
+
+        linkDesktop = ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes, $ctrl: TypeaheadController, $ngModelCtrl: angular.INgModelController) => {
+            var $body = angular.element('body'),
+                content: angular.IAugmentedJQuery;
 
             $element.on('focus.typeahead', () => {
                 if (content)
                     return;
 
-                var itemText = $attrs.typeaheadText == null ? "item" : `item.${$attrs.typeaheadText}`;
-                content = this.createContent($scope, $element, $attrs.typeaheadTemplate, itemText);
+                content = this.createContentFromAttr($scope, $element, $attrs);
                 $body.append(content);
 
                 var tether = new Tether({
@@ -181,94 +307,12 @@ module AngularTypeaheadModule {
                         pin: ['top', 'left', 'bottom', 'right']
                     }]
                 });
-                
+
                 tether.position();
                 $scope.$apply();
             });
 
-            $element.on('blur.typeahead', () => {
-                // Allow any click on the menu to come through first
-                blurTimer = this.$timeout(() => {
-                    var value = ngModelCtrl.$modelValue;
-
-                    if (value == null || !value.length)
-                        setValidity(true);
-                    else if ($attrs.typeaheadSelectionRequired != null && ctrl.typeahead == null)
-                        setValidity(false);
-
-                    ctrl.isVisible = false;
-                    $scope.$apply();
-                }, 300);
-            });
-
-            ctrl.update = () => {
-                var value = getTextFromModel(ctrl.typeahead) || ctrl.typeahead;
-                ngModelCtrl.$setViewValue(value);
-
-                setValidity(true);
-
-                ngModelCtrl.$render();
-            };
-
-            $element.on('keydown.typeahead change.typeahead', e => {
-                if (!ctrl.isVisible)
-                    return true;
-
-                if (this.isEscape(e)) {
-                    ctrl.isVisible = false;
-                    $scope.$apply();
-                    return this.preventDefault(e);
-                }
-
-                if (this.isKeyUp(e)) {
-                    ctrl.selectPrev();
-                    $scope.$apply();
-                    return this.preventDefault(e);
-                }
-
-                if (this.isKeyDown(e)) {
-                    ctrl.selectNext();
-                    $scope.$apply();
-                    return this.preventDefault(e);
-                }
-
-                if ((this.isEnter(e) || this.isTab(e)) && ctrl.hasSelection()) {
-                    ctrl.select();
-                    ctrl.isVisible = false;
-                    $scope.$apply();
-                    return this.preventDefault(e);
-                }
-
-                return true;
-            });
-
-            $element.on('keyup.typeahead', e => {
-                if (this.isControlKey(e))
-                    return;
-
-                ctrl.selectedIdx = -1;
-                ctrl.typeahead = null;
-
-                ctrl.search(ngModelCtrl.$modelValue);
-            });
-
-            $element.addClass('typeahead-placeholder');
-
-            $scope.$on('$destroy', () => {
-                if (content) content.remove();
-                $body.off("keyup.typeahead click.typeahead");
-            });
-
-            function setValidity(isValid: boolean) {
-                ngModelCtrl.$setValidity('typeahead', isValid);
-            }
-
-            ctrl.resetValidity = () => {
-                setValidity(true);
-            };
-
-            if (ctrl.typeahead != null)
-                ctrl.update();
+            return () => content;
         };
 
         preventDefault(e) {
@@ -300,6 +344,12 @@ module AngularTypeaheadModule {
         isControlKey(e) {
             var k = e.which;
             return k === 9 || k === 13 || (k >= 16 && k <= 20) || k === 27 || (k >= 33 && k <= 40) || k === 45 || (k >= 91 && k <= 93);
+        }
+
+        createContentFromAttr($scope, $element, $attrs) {
+            var itemText = $attrs['typeaheadText'] == null ? "item" : `item.${$attrs['typeaheadText']}`,
+                content = this.createContent($scope, $element, $attrs['typeaheadTemplate'], itemText);
+            return content;
         }
 
         createContent(scope, element, templateUrl, text) {
