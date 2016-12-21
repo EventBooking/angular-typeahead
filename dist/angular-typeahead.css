@@ -81,7 +81,7 @@
   outline: none;
   color: inherit;
 }
-.typeahead-mobile--input:focus {
+.typeahead-mobile.typeahead-mobile--input:focus {
   position: absolute;
   display: block;
   top: 0;
@@ -94,7 +94,7 @@
   padding: 0 10px;
   z-index: 9999;
 }
-.typeahead-mobile--dropdown {
+.typeahead-mobile.typeahead-mobile--dropdown {
   position: absolute;
   top: 48px;
   right: 0;
@@ -107,7 +107,7 @@
   box-shadow: none;
   border-top: solid 1px #ccc;
 }
-.typeahead-mobile--dropdown:before {
+.typeahead-mobile.typeahead-mobile--dropdown.typeahead-mobile.typeahead-mobile--dropdown:before {
   position: absolute;
   display: -webkit-box;
   display: -webkit-flex;
@@ -135,7 +135,7 @@
   border-bottom: solid 1px #ccc;
   box-sizing: border-box;
 }
-.typeahead-mobile--dropdown.typeahead-mobile--focused {
+.typeahead-mobile.typeahead-mobile--dropdown.typeahead-mobile.typeahead-mobile--dropdown.typeahead-mobile--focused {
   display: block;
   visibility: visible;
 }
