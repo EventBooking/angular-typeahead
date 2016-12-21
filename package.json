@@ -9,7 +9,7 @@
     "tsc": "tsc -p src",
     "tsc:w": "tsc -p src -w",
     "postInstall": "tsd install",
-    "start:w": "tsc -p src -w & gulp postTsc",
+    "start:w": "tsc -p src -w & gulp watch",
     "start": "lite-server"
   },
   "repository": {
