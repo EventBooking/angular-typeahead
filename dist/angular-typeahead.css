@@ -82,7 +82,7 @@
   color: inherit;
 }
 .typeahead-mobile--input:focus {
-  position: fixed;
+  position: absolute;
   display: block;
   top: 0;
   left: 0;
@@ -97,7 +97,6 @@
 .typeahead-mobile--dropdown {
   position: absolute;
   top: 48px;
-  left: 0;
   right: 0;
   bottom: 0;
   width: 100%;

@@ -267,18 +267,31 @@ module AngularTypeaheadModule {
 
             $element.addClass('typeahead-mobile typeahead-mobile--input');
 
-            $element.on('focus.typeahead', () => {
-                if (!content) {
-                    content = this.createContentFromAttr($scope, $element, $attrs);
-                    content.addClass('typeahead-mobile typeahead-mobile--dropdown');
-                    $body.append(content);
-                }
+            var initElement = () => {
+                $element.one('focus.typeahead', () => {
+                    if (!content) {
+                        content = this.createContentFromAttr($scope, $element, $attrs);
+                        content.addClass('typeahead-mobile typeahead-mobile--dropdown');
+                        $body.append(content);
+                    }
 
-                content.addClass('typeahead-mobile--focused');
-                $element.one('blur.typeahead', () => {
-                    content.removeClass('typeahead-mobile--focused');
+                    var $placeholder = angular.element("<div class='typeahead-placeholder'></div>");
+                    $placeholder.insertBefore($element);
+                    $body.append($element);
+
+                    $element.focus();
+
+                    content.addClass('typeahead-mobile--focused');
+                    $element.one('blur.typeahead', () => {
+                        $element.insertBefore($placeholder);
+                        $placeholder.remove();
+                        content.removeClass('typeahead-mobile--focused');
+                        initElement();
+                    });
                 });
-            });
+            }
+
+            initElement();
 
             return () => content;
         };

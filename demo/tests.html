@@ -10,6 +10,7 @@
             typeahead-text="name" 
             typeahead-selection-required 
             on-search="vm.searchContacts(text)" 
+            ng-blur="vm.onBlur()"
             required />
             
         <div ng-show="searchContactsForm.contactSearch.$error.typeahead">

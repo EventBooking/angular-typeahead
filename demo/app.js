@@ -20,9 +20,13 @@ function TestController($q) {
         { contactId: 1, name: "Janice" },
         { contactId: 1, name: "Katrina" }
     ];
+
+    this.onBlur = function() {
+        console.log('blur');
+    }
     
 	this.searchContacts = function(text) {
-        var contacts = this.contacts;
+        var contacts = this.contacts.filter( x => x.name.indexOf(text) > -1 );
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 resolve(contacts);
