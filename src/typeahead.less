@@ -61,6 +61,11 @@
     }
 }
 
+.typeahead-mobile-body {
+    position: fixed !important;
+    -webkit-overflow-scrolling: auto;
+}
+
 .typeahead-mobile {
     
     &&--input {
@@ -92,6 +97,7 @@
         box-shadow: none;
         border-top: solid 1px #ccc;
         display: none;
+        -webkit-overflow-scrolling: touch;
 
         &&:before {
             position: absolute;

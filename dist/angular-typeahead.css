@@ -81,6 +81,10 @@
   outline: none;
   color: inherit;
 }
+.typeahead-mobile-body {
+  position: fixed !important;
+  -webkit-overflow-scrolling: auto;
+}
 .typeahead-mobile.typeahead-mobile--input.typeahead-mobile--focused {
   position: absolute;
   display: block;
@@ -107,6 +111,7 @@
   box-shadow: none;
   border-top: solid 1px #ccc;
   display: none;
+  -webkit-overflow-scrolling: touch;
 }
 .typeahead-mobile.typeahead-mobile--dropdown.typeahead-mobile.typeahead-mobile--dropdown:before {
   position: absolute;
