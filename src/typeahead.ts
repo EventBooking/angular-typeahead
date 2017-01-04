@@ -284,11 +284,12 @@ module AngularTypeaheadModule {
                     return;
 
                 $content = this.createContentFromAttr($scope, $element, $attrs);
-                $content.on('click.typeahead', (e) => {
+                $content.on('click.typeahead', ($event: angular.IAngularEvent) => {
                     moveElementBack();
                     $ctrl.isVisible = false;
+                    $event.preventDefault();
+                    $event.stopPropagation();
                     $scope.$apply();
-                    console.log('click.typeahead', e.target, $ctrl.isVisible);
                 });
                 $content.addClass('typeahead-mobile typeahead-mobile--dropdown');
                 $body.append($content);
