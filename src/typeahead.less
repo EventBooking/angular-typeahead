@@ -64,7 +64,7 @@
 .typeahead-mobile {
     
     &&--input {
-        &:focus {
+        &.typeahead-mobile--focused {
             position: absolute;
             display: block;
             top: 0;
@@ -92,6 +92,7 @@
         // overflow: auto;
         box-shadow: none;
         border-top: solid 1px #ccc;
+        display: none;
 
         &&:before {
             position: absolute;
@@ -110,6 +111,10 @@
             border-left: solid 1px #ccc;
             border-bottom: solid 1px #ccc;
             box-sizing: border-box;
+
+            &:active {
+                background-color: lightblue;
+            }
         }
 
         &&.typeahead-mobile--focused {

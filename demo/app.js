@@ -14,6 +14,7 @@ function TestController($q) {
     
     this.contacts = [
         { contactId: 1, name: "Thomas" },
+        { contactId: 1, name: "Thomas2" },
         { contactId: 1, name: "Nancy" },
         { contactId: 1, name: "Bill" },
         { contactId: 1, name: "Bob" },
@@ -26,7 +27,8 @@ function TestController($q) {
     }
     
 	this.searchContacts = function(text) {
-        var contacts = this.contacts.filter( x => x.name.indexOf(text) > -1 );
+        var contacts = this.contacts.filter( x => x.name.toLowerCase().trim().indexOf(text.toLowerCase().trim()) > -1 );
+        console.log(text, contacts.map( x => x.name));
         return $q(function(resolve, reject) {
             setTimeout(function() {
                 resolve(contacts);
