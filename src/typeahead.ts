@@ -309,11 +309,11 @@ module AngularTypeaheadModule {
 
             function stopBodyScrolling(bool) {
                 if (bool === true) {
-                    $body.off("touchmove", freezeVp);
-                    $body.removeClass("typeahead-mobile-body");
-                } else {
                     $body.on("touchmove", freezeVp);
                     $body.addClass("typeahead-mobile-body");
+                } else {
+                    $body.off("touchmove", freezeVp);
+                    $body.removeClass("typeahead-mobile-body");
                 }
             }
 
