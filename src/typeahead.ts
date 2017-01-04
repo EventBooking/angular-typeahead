@@ -61,7 +61,6 @@ module AngularTypeaheadModule {
         }
 
         select($index?) {
-            console.log('select', $index);
             if ($index != null) // single equality (=) to snag undefined also
                 this.selectedIdx = $index;
             if (this.selectedIdx > -1) {
@@ -104,7 +103,6 @@ module AngularTypeaheadModule {
 
                 promise.then(results => {
                     this.results = results;
-                    this.isVisible = this.results.length > 0;
 
                     defer.resolve();
                 });
@@ -215,16 +213,10 @@ module AngularTypeaheadModule {
                     return;
 
                 $content = this.createContentFromAttr($scope, $element, $attrs);
+                $body.append($content);
 
                 $input = $content.find(".typeahead-mobile-input");
-                $input.on('blur.typeahead', () => {
-                    this.$timeout(() => {
-                        stopBodyScrolling(false);
-                        $content.removeClass('typeahead-mobile-dropdown');
-                        $ctrl.isVisible = false;
-                        $scope.$apply();
-                    }, 100);
-                });
+
                 $input.on('keyup.typeahead', e => {
                     if (this.isControlKey(e))
                         return;
@@ -232,34 +224,46 @@ module AngularTypeaheadModule {
                     $ctrl.selectedIdx = -1;
                     $ctrl.typeahead = null;
 
-                    $ctrl.search($input.val());
+                    $ngModelCtrl.$setViewValue($input.val());
+                    $scope.$apply();
+                });
+
+                $input.on('blur.typeahead', (e) => {
+                    this.$timeout(() => {
+                        stopBodyScrolling(false);
+                        $content.removeClass('typeahead-mobile-dropdown');
+
+                        var value = $ngModelCtrl.$modelValue;
+
+                        if (value == null || !value.length)
+                            setValidity(true);
+                        else if ($attrs['typeaheadSelectionRequired'] != null && $ctrl.typeahead == null)
+                            setValidity(false);
+
+                        $ctrl.isVisible = false;
+                        $scope.$apply();
+                    }, 300);
                 });
 
                 $close = $content.find(".typeahead-mobile-close");
-
-                $body.append($content);
             };
-
-            // var _update = $ctrl.update;
-            // $ctrl.update = () => {
-            //     _update();
-            //     $ctrl.isVisible = true;
-            // };
 
             $element.on('focus.typeahead', () => {
                 ensureContentExists();
                 $content.addClass('typeahead-mobile-dropdown');
-                $input.val('');
+                $input.val($ngModelCtrl.$viewValue);
 
                 stopBodyScrolling(true);
-
-                this.$timeout(() => {
-                    $input.focus();
-                }, 100);
 
                 $ctrl.results = [];
                 $ctrl.isVisible = true;
                 $scope.$apply();
+
+                $input.focus();
+            });
+
+            $ngModelCtrl.$viewChangeListeners.push(() => {
+                $ctrl.search($ngModelCtrl.$viewValue);
             });
 
             return () => $content;
@@ -284,7 +288,9 @@ module AngularTypeaheadModule {
                 $ctrl.selectedIdx = -1;
                 $ctrl.typeahead = null;
 
-                $ctrl.search($ngModelCtrl.$modelValue);
+                $ctrl.search($ngModelCtrl.$modelValue).then( () => {
+                    $ctrl.isVisible = $ctrl.results.length > 0;
+                });
             });
 
             $element.on('keydown.typeahead change.typeahead', e => {
