@@ -255,6 +255,8 @@ module AngularTypeaheadModule {
                 if (isBodyElement())
                     return;
 
+                stopBodyScrolling(true);
+
                 ensurePlaceholderExists();
                 $placeholder.insertBefore($element);
                 $body.append($element);
@@ -271,6 +273,8 @@ module AngularTypeaheadModule {
             var moveElementBack = () => {
                 if (!isBodyElement() || $placeholder == null)
                     return;
+
+                stopBodyScrolling(false);
 
                 $element.removeClass('typeahead-mobile--focused');
                 $content.removeClass('typeahead-mobile--focused');
@@ -302,6 +306,18 @@ module AngularTypeaheadModule {
             var isBodyElement = () => {
                 return $element.parent().is($body);
             }
+
+            function stopBodyScrolling(bool) {
+                if (bool === true) {
+                    $body.off("touchmove", freezeVp);
+                } else {
+                    $body.on("touchmove", freezeVp);
+                }
+            }
+
+            var freezeVp = function (e) {
+                e.preventDefault();
+            };
 
             $element.on('focus.typeahead', () => {
                 var value = $ngModelCtrl.$modelValue;

@@ -104,7 +104,6 @@
   border-radius: 0;
   border-width: 0;
   z-index: 9998;
-  overflow: auto;
   box-shadow: none;
   border-top: solid 1px #ccc;
   display: none;
