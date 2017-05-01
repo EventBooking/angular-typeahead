@@ -14,7 +14,7 @@ gulp.task('watch', ['build'], watch);
 
 function clean() {
     var del = require('del');
-    return del(dest);
+    return del([`${dest}/*.less`, `${dest}/*.css`]);
 }
 
 function styles() {
