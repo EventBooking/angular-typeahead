@@ -20,6 +20,7 @@ module AngularTypeaheadModule {
         update;
         resetValidity;
         onSelect: any;
+        typeaheadName: string;
 
         set typeahead(value: any) {
             this._typeahead = value;
@@ -213,7 +214,7 @@ module AngularTypeaheadModule {
                 if ($content)
                     return;
 
-                $content = this.createContentFromAttr($scope, $element, $attrs);
+                $content = this.createContentFromAttr($scope, $element, $attrs, $ctrl);
                 $body.append($content);
 
                 $input = $content.find(".typeahead-mobile-input");
@@ -330,7 +331,7 @@ module AngularTypeaheadModule {
                 if (content)
                     return;
 
-                content = this.createContentFromAttr($scope, $element, $attrs);
+                content = this.createContentFromAttr($scope, $element, $attrs, $ctrl);
                 $body.append(content);
 
                 var tether = new Tether({
@@ -417,15 +418,15 @@ module AngularTypeaheadModule {
             return k === 9 || k === 13 || (k >= 16 && k <= 20) || k === 27 || (k >= 33 && k <= 40) || k === 45 || (k >= 91 && k <= 93);
         }
 
-        createContentFromAttr($scope, $element, $attrs) {
+        createContentFromAttr($scope, $element, $attrs, $ctrl: TypeaheadController) {
             var itemText = $attrs['typeaheadText'] == null ? "item" : `item.${$attrs['typeaheadText']}`,
-                content = this.createContent($scope, $element, $attrs['typeaheadTemplate'], itemText);
+                name = $ctrl.typeaheadName || $scope.$id,
+                content = this.createContent($scope, $element, $attrs['typeaheadTemplate'], name, itemText);
             return content;
         }
 
-        createContent(scope: angular.IScope, element, templateUrl, text) {
+        createContent(scope: angular.IScope, element, templateUrl, name, text) {
             var html = templateUrl ? this.$templateCache.get(templateUrl) : `<a href="#" class="typeahead-link">{{${text}}}</a>`,
-                name = scope['typeaheadName'] || scope.$id,
                 template = `
                 <div class="typeahead typeahead-${name}" ng-class="{'typeahead--hidden':!typeaheadVm.isVisible}">
                     <div class="typeahead-mobile-top">
