@@ -133,6 +133,7 @@ module AngularTypeaheadModule {
             typeahead: '=',
             typeaheadTemplate: '@',
             typeaheadText: '@',
+            typeaheadName: '@',
             onSearch: '&',
             onSelect: '&'
         };
@@ -288,7 +289,7 @@ module AngularTypeaheadModule {
                 $ctrl.selectedIdx = -1;
                 $ctrl.typeahead = null;
 
-                $ctrl.search($ngModelCtrl.$modelValue).then( () => {
+                $ctrl.search($ngModelCtrl.$modelValue).then(() => {
                     $ctrl.isVisible = $ctrl.results.length > 0;
                 });
             });
@@ -422,10 +423,11 @@ module AngularTypeaheadModule {
             return content;
         }
 
-        createContent(scope, element, templateUrl, text) {
+        createContent(scope: angular.IScope, element, templateUrl, text) {
             var html = templateUrl ? this.$templateCache.get(templateUrl) : `<a href="#" class="typeahead-link">{{${text}}}</a>`,
+                name = scope['typeaheadName'] || scope.$id,
                 template = `
-                <div class="typeahead" ng-class="{'typeahead--hidden':!typeaheadVm.isVisible}">
+                <div class="typeahead typeahead-${name}" ng-class="{'typeahead--hidden':!typeaheadVm.isVisible}">
                     <div class="typeahead-mobile-top">
                         <input class="typeahead-mobile-input" type="text"><i class="typeahead-mobile-close">&times;</i>
                     </div>

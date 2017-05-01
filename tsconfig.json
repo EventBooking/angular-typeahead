@@ -8,5 +8,13 @@
         "inlineSources": true,
         "target": "es5",
         "out": "dist/angular-typeahead.js"
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "bower_components",
+        "dist",
+        "demo",
+        ".vscode",
+        "typings"
+    ]
 }

@@ -6,10 +6,10 @@
   "scripts": {
     "gulp": "gulp",
     "build": "npm run tsc && npm run gulp",
-    "tsc": "tsc -p src",
-    "tsc:w": "tsc -p src -w",
-    "postInstall": "tsd install",
-    "start:w": "tsc -p src -w & gulp watch",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "postInstall": "bower install && tsd install",
+    "start:w": "tsc -w & gulp watch",
     "start": "lite-server"
   },
   "repository": {
