@@ -65,8 +65,9 @@ module AngularTypeaheadModule {
             if ($index != null) // single equality (=) to snag undefined also
                 this.selectedIdx = $index;
             if (this.selectedIdx > -1) {
-                this.typeahead = this.results[this.selectedIdx];
-                this.onSelect();
+                var value = this.results[this.selectedIdx];
+                this.typeahead = value;
+                this.onSelect({value:value});
             }
             this.selectedIdx = -1;
             this.update();
@@ -131,7 +132,7 @@ module AngularTypeaheadModule {
         controllerAs = 'typeaheadVm';
         bindToController = true;
         scope = {
-            typeahead: '=',
+            typeahead: '=?',
             typeaheadTemplate: '@',
             typeaheadText: '@',
             typeaheadName: '@',
