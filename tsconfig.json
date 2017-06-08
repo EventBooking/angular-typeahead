@@ -16,5 +16,11 @@
         "demo",
         ".vscode",
         "typings"
+    ],
+    "files": [
+        "typings/browser.d.ts",
+        "src/app.ts",
+        "src/mobile.ts",
+        "src/typeahead.ts"
     ]
 }
