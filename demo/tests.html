@@ -11,13 +11,16 @@
             typeahead-selection-required 
             on-search="vm.searchContacts(text)" 
             ng-blur="vm.onBlur()"
+            ng-disabled="vm.contact != null"
             required />
+
+        <span ng-show="vm.contact != null" ng-click="vm.contact=null;">clear</span>
             
         <div ng-show="searchContactsForm.contactSearch.$error.typeahead">
             <div style="color: red">Typeahead error</div>
             <button type="button" ng-click="vm.contact=vm.contacts[0]; vm.contactSearch='Thomas'">Set Contact</button>
         </div>
 
-        <input type="text">
+        <input type="text" placeholder="just a text box">
     </div>
 </form>

@@ -1,6 +1,6 @@
 {
   "name": "angular-typeahead",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "",
   "main": "./dist/angular-typeahead.js",
   "typings": "./dist/angular-typeahead.d.ts",
@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "postinstall": "typings install",
-    "start:w": "tsc -w & gulp watch",
+    "build:w": "tsc -w & gulp watch",
     "start": "lite-server"
   },
   "repository": {

@@ -67,10 +67,12 @@ module AngularTypeaheadModule {
             if (this.selectedIdx > -1) {
                 var value = this.results[this.selectedIdx];
                 this.typeahead = value;
-                this.onSelect({value:value});
             }
             this.selectedIdx = -1;
             this.update();
+
+            if(this.typeahead != undefined)
+                this.onSelect({value:this.typeahead});
         }
 
         isSelected($index) {
@@ -151,11 +153,11 @@ module AngularTypeaheadModule {
 
             $ctrl.update = () => {
                 var value = getTextFromModel($ctrl.typeahead) || $ctrl.typeahead;
-                $ngModelCtrl.$setViewValue(value);
+                // $ngModelCtrl.$setViewValue(value); // dont do this...
+                $ngModelCtrl.$viewValue = value; // do this, because of ng-disabled
+                $ngModelCtrl.$render();
 
                 setValidity(true);
-
-                $ngModelCtrl.$render();
             };
 
             $element.addClass('typeahead-placeholder');
