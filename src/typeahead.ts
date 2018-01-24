@@ -361,8 +361,9 @@ module AngularTypeaheadModule {
 
             var blurTimer;
 
-            $body.on("click.typeahead", e => {
-                if ($element.is(e.target) || !content || content.is(e.target)) {
+            $body.on("click.typeahead", (e: JQuery.Event) => {
+                const target = e.target as Element;
+                if ($element.is(target) || !content || content.is(target)) {
                     this.$timeout.cancel(blurTimer);
                     return;
                 }

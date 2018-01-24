@@ -1,16 +1,15 @@
 {
   "name": "angular-typeahead",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "",
   "main": "./dist/angular-typeahead.js",
   "typings": "./dist/angular-typeahead.d.ts",
   "scripts": {
     "gulp": "gulp",
     "build": "npm run tsc && npm run gulp",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "postinstall": "typings install",
-    "build:w": "tsc -w & gulp watch",
+    "tsc": "tsc -p src",
+    "tsc:w": "tsc -w -p src",
+    "build:w": "npm run tsc:w & gulp watch",
     "start": "lite-server"
   },
   "repository": {
@@ -24,6 +23,8 @@
   },
   "homepage": "https://github.com/EventBooking/angular-typeahead#readme",
   "devDependencies": {
+    "@types/angular": "^1.6.41",
+    "@types/jquery": "^3.3.0",
     "del": "^2.2.0",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "~2.3.1",
@@ -35,13 +36,12 @@
     "gulp-template": "^3.0.0",
     "less-plugin-glob": "^1.1.1",
     "lite-server": "^2.2.2",
-    "typescript": "^1.8.7",
-    "typings": "^0.7.7"
+    "typescript": "^2.2.1"
   },
   "dependencies": {
     "angular": "^1.4.9",
-    "jquery": "^2.2.1",
+    "jquery": "^3.3.1",
     "tether": "^1.1.1",
-    "angular-typescript-module": "github:eventbooking/angular-typescript-module#v2.0.1"
+    "angular-typescript-module": "github:eventbooking/angular-typescript-module#v2.1.0"
   }
 }

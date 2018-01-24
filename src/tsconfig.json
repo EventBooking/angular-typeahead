@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "noImplicitAny": false,
+        "noEmitOnError": true,
+        "removeComments": false,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "target": "es5",
+        "out": "dist/angular-typeahead.js",
+        "types": [
+            "angular",
+            "jquery",
+            "angular-typescript-module"
+        ]
+    },
+    "files": [
+        "app.ts",
+        "mobile.ts",
+        "typeahead.ts"
+    ]
+}
