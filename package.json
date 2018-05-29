@@ -1,6 +1,6 @@
 {
   "name": "angular-typeahead",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "main": "./dist/angular-typeahead.js",
   "typings": "./dist/angular-typeahead.d.ts",
@@ -10,7 +10,8 @@
     "tsc": "tsc -p src",
     "tsc:w": "tsc -w -p src",
     "build:w": "npm run tsc:w & gulp watch",
-    "start": "lite-server"
+    "start": "lite-server",
+    "browserSync": "browser-sync start --config bs-config.js"
   },
   "repository": {
     "type": "git",

@@ -153,7 +153,7 @@ module AngularTypeaheadModule {
 
             $ctrl.update = () => {
                 var value = getTextFromModel($ctrl.typeahead) || $ctrl.typeahead;
-                // $ngModelCtrl.$setViewValue(value); // dont do this...
+                //$ngModelCtrl.$setViewValue(value); // dont do this...
                 $ngModelCtrl.$viewValue = value; // do this, because of ng-disabled
                 $ngModelCtrl.$render();
 
@@ -247,6 +247,8 @@ module AngularTypeaheadModule {
 
                         $ctrl.isVisible = false;
                         $scope.$apply();
+
+                        $ngModelCtrl.$render();
                     }, 300);
                 });
 
